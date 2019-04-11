@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "sphttpclient-client-side-solution",
+    "id": "0cd249dd-74a1-4915-a5e5-488fc4f058e7",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/sphttpclient.sppkg"
+  }
+}

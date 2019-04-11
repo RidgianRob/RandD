@@ -1,0 +1,11 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "isCreatingSolution": true,
+    "environment": "onprem",
+    "version": "1.6.0",
+    "libraryName": "sphttpclient",
+    "libraryId": "0cd249dd-74a1-4915-a5e5-488fc4f058e7",
+    "packageManager": "npm",
+    "componentType": "webpart"
+  }
+}
