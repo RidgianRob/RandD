@@ -1,1 +1,1 @@
-export * from './ClaasService';
+export * from './GamesListService';

@@ -1,1 +1,1 @@
-export * from './IIntroSourceListItem';
+export * from './IGamesListItem';
