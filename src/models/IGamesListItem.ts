@@ -3,7 +3,7 @@ export interface IGamesListItem {
   ['@odata.etag']?: string;
   Id: number;
   Title: string;
-  platform: string,
+  platform: string;
   datePurchased: string;
   dateLastPlayed: string;
   comments: string;

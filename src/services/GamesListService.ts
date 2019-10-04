@@ -23,7 +23,7 @@ export class GamesListService {
     postNoMetadata: <ISPHttpClientOptions> {
       headers: {
         'ACCEPT': 'application/json; odata.metadata=none',
-        'CONTENT-TYPE' : 'application/json' 
+        'CONTENT-TYPE' : 'application/json'
       }
     },
     updateNoMetadata: <ISPHttpClientOptions> {
@@ -158,7 +158,7 @@ export class GamesListService {
         })
         .catch((error: any) => {
           reject(error);
-        });        
+        });
     });
 
     return promise;
@@ -177,7 +177,7 @@ export class GamesListService {
       )
       .then(() => {
         resolve();
-      })
+      });
     });
 
     return promise;
@@ -197,7 +197,7 @@ export class GamesListService {
       )
       .then(() => {
         resolve();
-      })
+      });
     });
 
     return promise;

@@ -10,10 +10,10 @@ import styles from './SphttpclientWebPart.module.scss';
 import * as strings from 'SphttpclientWebPartStrings';
 
 // Interfaces (models)
-import { IIntroSourceListItem } from '../../models';
+import { IGamesListItem } from '../../models';
 
 // Services
-import { ClaasService } from '../../services';
+import { GamesListService } from '../../services';
 
 export interface ISphttpclientWebPartProps {
   description: string;
@@ -21,12 +21,12 @@ export interface ISphttpclientWebPartProps {
 
 export default class SphttpclientWebPart extends BaseClientSideWebPart<ISphttpclientWebPartProps> {
 
-  private claasService: ClaasService;
+  private gamesListService: GamesListService;
 
-  private claasIntroSourceDetailElement: HTMLElement;
+  private gamesDetailElement: HTMLElement;
 
   protected onInit(): Promise<any> {
-    this.claasService = new ClaasService (
+    this.gamesListService = new GamesListService (
       this.context.pageContext.web.absoluteUrl,
       this.context.spHttpClient
     );
@@ -41,68 +41,67 @@ export default class SphttpclientWebPart extends BaseClientSideWebPart<ISphttpcl
           <div class="${ styles.container }">
             <div class="${ styles.row }">
               <div class="${ styles.column }">
-                <span class="${ styles.title }">Claas Intro Source List</span>
+                <span class="${ styles.title }">Games List</span>
                 <p class="${ styles.subTitle }">Demonstrating SharePoint HTTP Client.</p>
-                <button id="getClaasIntroSources" class="${styles.button}">Get Claas Intro Sources</button>
-                <button id="getClaasIntroSource" class="${styles.button}">Get Claas Intro Source</button>
-                <button id="getLastClaasIntroSource" class="${styles.button}">Get Last Claas Intro Source</button>
-                <button id="createClaasIntroSource" class="${styles.button}">Create Claas Intro Source</button>
-                <button id="updateClaasIntroSource" class="${styles.button}">Update Claas Intro Source</button>
-                <button id="deleteClaasIntroSource" class="${styles.button}">Delete Claas Intro Source</button>
+                <button id="getGames" class="${styles.button}">Get Games</button>
+                <button id="getGame" class="${styles.button}">Get Game</button>
+                <button id="getLastGame" class="${styles.button}">Get Last Game</button>
+                <button id="createGame" class="${styles.button}">Create Game</button>
+                <button id="updateGame" class="${styles.button}">Update Game</button>
+                <button id="deleteGame" class="${styles.button}">Delete Game</button>
                 <div id="claasIntroSources"></div>
               </div>
             </div>
           </div>
         </div>`;
 
-        this.claasIntroSourceDetailElement = document.getElementById('claasIntroSources');
+        this.gamesDetailElement = document.getElementById('claasIntroSources');
 
-        document.getElementById('getClaasIntroSources')
+        document.getElementById('getGames')
           .addEventListener('click', () => {
-            this._getClaasIntroSources();
+            this._getGames();
           });
 
-          document.getElementById('getClaasIntroSource')
+          document.getElementById('getGame')
             .addEventListener('click', () => {
-              this._getClaasIntroSource();
+              this._getGame();
           });
 
-          document.getElementById('getLastClaasIntroSource')
+          document.getElementById('getLastGame')
             .addEventListener('click', () => {
-              this._getLastClaasIntroSource();
+              this._getLastGame();
           });
 
-          document.getElementById('createClaasIntroSource')
+          document.getElementById('createGame')
             .addEventListener('click', () => {
-              this._createClaasIntroSource();
-          });          
+              this._createGame();
+          });
 
-          document.getElementById('updateClaasIntroSource')
+          document.getElementById('updateGame')
             .addEventListener('click', () => {
-              this._updateLastClaasIntroSource();
+              this._updateLastGame();
           }); 
 
-          document.getElementById('deleteClaasIntroSource')
+          document.getElementById('deleteGame')
             .addEventListener('click', () => {
-              this._deleteLastClaasIntroSource();
+              this._deleteLastGame();
           }); 
 
     }
   }
 
-  private _renderClaasIntroSources(element: HTMLElement, introSources: IIntroSourceListItem[]): void {
-    let introSourceList: string = '';
+  private _renderGames(element: HTMLElement, game: IGamesListItem[]): void {
+    let gamesList: string = '';
 
-    if (introSources && introSources.length && introSources.length > 0) {
-      introSources.forEach((introSource: IIntroSourceListItem) => {
-        introSourceList = introSourceList + `<tr>
-          <td>${introSource.Id}</td>
-          <td>${introSource.Title}</td>
-          <td>${introSource.introSourceJV}</td>
-          <td>${introSource.dealer}</td>
-          <td>${introSource.introSource}</td>
-          <td>${introSource.reviewDate}</td>
-          <td>${introSource.subArea}</td>
+    if (game && game.length && game.length > 0) {
+      game.forEach((game: IGamesListItem) => {
+        gamesList = gamesList + `<tr>
+          <td>${game.Id}</td>
+          <td>${game.Title}</td>
+          <td>${game.platform}</td>
+          <td>${game.datePurchased}</td>
+          <td>${game.dateLastPlayed}</td>
+          <td>${game.comments}</td>
         </tr>`;
       });
     }
@@ -111,73 +110,72 @@ export default class SphttpclientWebPart extends BaseClientSideWebPart<ISphttpcl
       <tr>
         <th>Id</th>
         <th>Title</th>
-        <th>Intro Source JV</th>
-        <th>Dealer</th>
-        <th>Intro Source</th>
-        <th>Review Date</th>
-        <th>Sub Area</th>
-        <tbody>${introSourceList}</tbody>
+        <th>Platform</th>
+        <th>Date Purchased</th>
+        <th>Date Last Played</th>
+        <th>Comments</th>
+        <tbody>${gamesList}</tbody>
       </tr>
     </table>`;
   }
 
-  private _getClaasIntroSources(): void {
-    this.claasService.getClaasIntroSources()
-      .then((introSources: IIntroSourceListItem[]) => {
-        this._renderClaasIntroSources(this.claasIntroSourceDetailElement, introSources);
+  private _getGames(): void {
+    this.gamesListService.getGames()
+      .then((games: IGamesListItem[]) => {
+        this._renderGames(this.gamesDetailElement, games);
       });
 
   }
 
-  private _getClaasIntroSource(): void {
-    this.claasService.getClaasIntroSource(57)
-      .then((introSource: IIntroSourceListItem) => {
-        this._renderClaasIntroSources(this.claasIntroSourceDetailElement, [introSource]);
+  private _getGame(): void {
+    this.gamesListService.getGame(57)
+      .then((games: IGamesListItem) => {
+        this._renderGames(this.gamesDetailElement, [games]);
       });
 
   }
 
-  private _getLastClaasIntroSource(): void {
-    this.claasService.getLastClaasIntroSource()
-      .then((introSource: IIntroSourceListItem) => {
-        this._renderClaasIntroSources(this.claasIntroSourceDetailElement, [introSource]);
+  private _getLastGame(): void {
+    this.gamesListService.getLastGame()
+      .then((games: IGamesListItem) => {
+        this._renderGames(this.gamesDetailElement, [games]);
       });
 
   }
 
-  private _createClaasIntroSource(): void {
-    const newClaasIntroSource: IIntroSourceListItem = <IIntroSourceListItem> {
-      Title: 'Robs Intro Source',
-      introSourceJV: 'Leasing Solutions',
-      dealer: 'Robs Dealer',
-      introSource: 'Robs Intro Source',
-      subArea: 'Robs Sub Area'
+  private _createGame(): void {
+    const newGame: IGamesListItem = <IGamesListItem> {
+      Title: 'Half Life 3',
+      platform: 'PS5',
+      datePurchased: '2057-08-30',
+      dateLastPlayed: '2057-08-30',
+      comments: 'Never gonna happen...'
     };
 
-    this._renderClaasIntroSources(this.claasIntroSourceDetailElement, null);
+    this._renderGames(this.gamesDetailElement, null);
 
-    this.claasService.createClaasIntroSource(newClaasIntroSource)
+    this.gamesListService.createGame(newGame)
       .then(() => {
-        this._getClaasIntroSources();
+        this._getGames();
       });
 
   }
 
-  private _updateLastClaasIntroSource(): void {
-    this.claasService.getLastClaasIntroSource()
-      .then((introSource: IIntroSourceListItem) => {
-        introSource.reviewDate = new Date().toISOString();
-          return this.claasService.updateClaasIntroSource(introSource);
+  private _updateLastGame(): void {
+    this.gamesListService.getLastGame()
+      .then((games: IGamesListItem) => {
+        games.dateLastPlayed = new Date().toISOString();
+          return this.gamesListService.updateGame(games);
       });
   }
 
-  private _deleteLastClaasIntroSource(): void {
-    this.claasService.getLastClaasIntroSource()
-      .then((introSource: IIntroSourceListItem) => {
-          return this.claasService.deleteClaasIntroSource(introSource);
+  private _deleteLastGame(): void {
+    this.gamesListService.getLastGame()
+      .then((games: IGamesListItem) => {
+          return this.gamesListService.deleteGame(games);
       })
       .then(() => {
-        this._getClaasIntroSources();
+        this._getGames();
       });
   }
 
